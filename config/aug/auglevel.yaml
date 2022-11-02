@@ -1,0 +1,12 @@
+aug_global_prob: 1.0
+tero_aug_prob: 0.5
+image_aug_dim: ${sg.params.cond_dim}
+
+diffaug:
+  prob: null
+  policy: null #'translation,cutout'
+
+gridmask:
+  prob: null 
+  mask_ratio: null 
+  patch_size: null

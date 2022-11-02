@@ -1,0 +1,38 @@
+target: lightning_module.DiffusionPL
+params:
+  diffusion_model: ${model}
+  dynamic: ${dynamic}
+  data: ${data}
+  model: ${model.params}
+  exp: ${exp}
+  vis: ${vis}
+  optim: ${optim}
+#######################################################
+  device: cuda
+
+  parameterization: eps #eps or x0
+
+  use_ema: true
+  ema_decay: 0.9999
+  debug: ${debug}
+  log_dir: ${log_dir}
+  profile: ${profile}
+
+  
+  condition_method: null #null, auglevel
+  cond_dim: null
+  feat: ${feat} 
+
+  cond_drop_prob: null # 0.1
+  cond_scale: null #2.0
+
+
+  ddim_eta: 0.0
+  dtp: 1 #dynamic_thresholding_percentile, Imagen set it 0.9
+  log_num_per_prog: 10
+  ############evaluation related ############
+
+  
+
+
+

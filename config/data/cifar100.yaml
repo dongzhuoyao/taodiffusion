@@ -1,0 +1,64 @@
+name: cifar100
+num_classes: 100
+image_size: 32
+channels: 3
+root: ~/data
+lr: 1e-4
+wd: 0.03
+
+
+num_samples: 1.0
+
+
+fid_every_n_epoch: 25
+vis_every_iter: 1000
+
+fid_train_image_dir: ${data_root}/sg_fid_eval/cifar100v2_val_10k #always use val here!
+fid_val_image_dir: ${data_root}/sg_fid_eval/cifar100v2_val_10k
+fid_debug_dir: ${data_root}/sg_fid_eval/in32_4debug
+
+val_fid_num: 10000
+test_fid_num: 10000
+
+trainer:
+  limit_train_batches: 1.0
+  limit_val_batches: 10
+  max_steps: 100000 #iDDPM use 300_000 iters, bs=128,epoch~385
+  
+
+target: pl_datamodule.dm.DataModuleFromConfig
+params:
+  batch_size: 128 # set at top-level for convenience
+  num_workers: 3
+  pin_memory: True
+  wrap: False
+  train:
+    target: dataset.cifar10_torchvision.CIFAR100
+    params:
+      name: ${data.name}
+      root: ${data.root}
+      train: True
+      debug: ${debug}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}
+  validation:
+    target: dataset.cifar10_torchvision.CIFAR100
+    params:
+      name: ${data.name}
+      root: ${data.root}
+      train: False
+      debug: ${debug}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}
+  test:
+    target: dataset.cifar10_torchvision.CIFAR100
+    params:
+      name: ${data.name}
+      root: ${data.root}
+      train: False
+      debug: ${debug}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}

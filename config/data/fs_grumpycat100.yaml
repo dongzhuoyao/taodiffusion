@@ -1,0 +1,71 @@
+name: grumpycat100 
+num_classes: -1
+image_size: 64
+channels: 3
+
+root: ${data_root}/100_shot/100-shot-grumpy_cat
+lr: 1e-4
+wd: 0.01
+
+num_samples: 1.0
+
+
+root_global: ${data_root}
+fid_train_image_dir: ${data_root}/sg_fid_eval/grumpycat100v2_size64 #also use val here
+fid_val_image_dir: ${data_root}/sg_fid_eval/grumpycat100v2_size64
+fid_debug_dir: ${data_root}/sg_fid_eval/in32_4debug
+
+val_fid_num: 500
+test_fid_num: 500
+
+fid_every_n_epoch: 10
+vis_every_iter: 1000
+
+
+trainer:
+  limit_train_batches: 1.0
+  limit_val_batches: 10
+
+  max_steps: 100000 
+
+
+
+target: pl_datamodule.dm.DataModuleFromConfig
+params:
+  batch_size: 32 # set at top-level for convenience
+  num_workers: 5
+  pin_memory: True
+  wrap: False
+  train:
+    target: dataset.directory_dataset.DirectoryDataset
+    params:
+      root: ${data.root}
+      size: ${data.image_size}
+      dataset_name: ${data.name}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}
+      debug: ${debug}
+
+  validation:
+    target: dataset.directory_dataset.DirectoryDataset
+    params:
+      root: ${data.root}
+      size: ${data.image_size}
+      dataset_name: ${data.name}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}
+      debug: ${debug}
+
+  test:
+    target: dataset.directory_dataset.DirectoryDataset
+    params:
+      root: ${data.root}
+      size: ${data.image_size}
+      dataset_name: ${data.name}
+      num_samples: ${data.num_samples}
+      condition_method: ${sg.params.condition_method}
+      aug: ${aug}
+      debug: ${debug}
+

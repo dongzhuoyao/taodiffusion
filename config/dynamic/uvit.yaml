@@ -1,0 +1,18 @@
+target: dynamic.diffusionmodules.uvit.ViT #voc,coco
+params:
+  image_size: ${data.image_size}
+  patch_size: 2
+  layer_num: 13
+  dim: 512
+  heads: 8
+  mlp_dim: 2048
+  dropout: 0.1
+  emb_dropout: 0.1
+
+  ############  classifier-free
+  cond_token_num: 0
+  cond_dim: ${sg.params.cond_dim}
+  use_cls_token_as_pooled: True #Bool
+  condition_method: ${sg.params.condition_method}
+  condition: ${condition}
+  ############  classifier-free

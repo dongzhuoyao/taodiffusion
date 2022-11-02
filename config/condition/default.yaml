@@ -1,0 +1,7 @@
+  ############  classifier-free
+
+scale_type: 'imagen' #cfg(optimal w=0.1)
+
+
+label:
+  noise_ratio: 0

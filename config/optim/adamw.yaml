@@ -1,0 +1,15 @@
+name: adamw
+params:
+  lr: ${data.lr}
+  wd: ${data.wd}
+  beta1: 0.9 #0.9
+  beta2: 0.999
+
+scheduler_config: # 10000 warmup steps
+    target: diffusion_utils.lr_scheduler.LambdaLinearScheduler
+    params:
+      warm_up_steps: [ 5000]
+      cycle_lengths: [ 10000000000000 ]
+      f_start: [ 1.e-6 ]
+      f_max: [ 1. ]
+      f_min: [ 1. ]
